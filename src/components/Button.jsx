@@ -1,12 +1,12 @@
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {Colors, Buttons} from '../styles';
 
-type ButtonProps = {
-  title: string;
-  onPress: () => void;
-};
+// type ButtonProps = {
+//   title: string;
+//   onPress: () => void;
+// };
 
-const Button = ({title, onPress}: ButtonProps) => {
+const Button = ({title, onPress}) => {
   return (
     <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
       <Text style={styles.buttonText}>{title}</Text>

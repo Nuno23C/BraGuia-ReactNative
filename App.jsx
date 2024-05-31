@@ -13,7 +13,7 @@ import Contactos from './src/views/Contactos';
 enableScreens();
 const Tab = createBottomTabNavigator();
 
-function App(): React.JSX.Element {
+function App() {
   // const isDarkMode = useColorScheme() === 'dark';
 
   // const backgroundStyle = {

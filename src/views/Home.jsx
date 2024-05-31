@@ -1,9 +1,29 @@
+// Dependencies
 import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
-import {Colors} from '../styles';
-import Icon from 'react-native-vector-icons/Ionicons';
+// import {useEffect, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/Ionicons';
+// import {useDispatch, useSelector} from 'react-redux';
+
+// Redux
+// import {fetchTrails} from '../redux/actions/trailsActions';
+// import {
+//   selectTrailsStatus,
+//   selectTrails,
+// } from '../redux/selector/trailsSelectors';
+
+// Styles and Components
+import {Colors} from '../styles';
 
 export default function Home() {
+  // const dispatch = useDispatch();
+  // const status = useSelector(selectTrailsStatus);
+  // const trails = useSelector(selectTrails);
+
+  // useEffect(() => {
+  //   dispatch(fetchTrails());
+  // }, [dispatch]);
+
   return (
     <>
       <LinearGradient
@@ -22,6 +42,18 @@ export default function Home() {
           <Icon name="diamond" size={35} color="black" />
         </TouchableOpacity>
       </LinearGradient>
+      {/* <Button title="Get Trails" onPress={getTrails} />
+      {trails == null || trails == undefined || trails.length == 0 ? (
+        <Text>Loading...</Text>
+      ) : (
+        trails.map((trail, index) => {
+          return (
+            <View key={index}>
+              <Text>{trail}</Text>
+            </View>
+          );
+        })
+      )} */}
     </>
   );
 }
