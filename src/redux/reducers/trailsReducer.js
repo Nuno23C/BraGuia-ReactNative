@@ -7,7 +7,7 @@ import {
 
 const initialState = {
   status: 'uninitialized',
-  trails: {},
+  trails: [],
   error: null,
 };
 

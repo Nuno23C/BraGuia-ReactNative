@@ -4,8 +4,7 @@ import {
   FETCH_TRAILS_FAILED,
   TRAILS_CHANGE,
 } from '../../constants';
-
-import {API} from '../../api/api';
+import API from '../../api/api';
 
 export const fetchTrailsStarted = () => ({
   type: FETCH_TRAILS_STARTED,
@@ -26,7 +25,7 @@ export const fetchTrails = () => {
     dispatch(fetchTrailsStarted());
 
     try {
-      const response = await API.getApiTrails();
+      const response = await API.get('/trails');
       const trails = response.data;
       dispatch(fetchTrailsSucceeded(trails));
     } catch (error) {

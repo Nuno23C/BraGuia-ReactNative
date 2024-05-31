@@ -1,28 +1,35 @@
 // Dependencies
-import {StyleSheet, TextInput, TouchableOpacity, View} from 'react-native';
-// import {useEffect, useState} from 'react';
+import {
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Text,
+} from 'react-native';
+import {useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
-// import {useDispatch, useSelector} from 'react-redux';
 
 // Redux
-// import {fetchTrails} from '../redux/actions/trailsActions';
-// import {
-//   selectTrailsStatus,
-//   selectTrails,
-// } from '../redux/selector/trailsSelectors';
+import {fetchTrails} from '../redux/actions/trailsActions';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  selectTrailsStatus,
+  selectTrails,
+} from '../redux/selector/trailsSelectors';
 
 // Styles and Components
 import {Colors} from '../styles';
+import TrailCard from '../components/TrailCard';
 
 export default function Home() {
-  // const dispatch = useDispatch();
-  // const status = useSelector(selectTrailsStatus);
-  // const trails = useSelector(selectTrails);
+  const dispatch = useDispatch();
+  const status = useSelector(selectTrailsStatus);
+  const trails = useSelector(selectTrails);
 
-  // useEffect(() => {
-  //   dispatch(fetchTrails());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchTrails());
+  }, [dispatch]);
 
   return (
     <>
@@ -42,18 +49,17 @@ export default function Home() {
           <Icon name="diamond" size={35} color="black" />
         </TouchableOpacity>
       </LinearGradient>
-      {/* <Button title="Get Trails" onPress={getTrails} />
-      {trails == null || trails == undefined || trails.length == 0 ? (
-        <Text>Loading...</Text>
-      ) : (
-        trails.map((trail, index) => {
-          return (
-            <View key={index}>
-              <Text>{trail}</Text>
-            </View>
-          );
-        })
-      )} */}
+      <View>
+        <View style={styles.trailsHeader}>
+          <Text style={styles.trailsTitle}>Roteiros</Text>
+          <Text style={styles.trailsSubtitle}>Ver todos</Text>
+        </View>
+        <View style={styles.trailsContainer}>
+          {trails.map((trail, index) => {
+            return <TrailCard key={index} trail={trail} />;
+          })}
+        </View>
+      </View>
     </>
   );
 }
@@ -81,5 +87,29 @@ const styles = StyleSheet.create({
   premiumButton: {
     marginTop: 16,
     padding: 16,
+  },
+  trailsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 16,
+    marginTop: 20,
+  },
+  trailsTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: Colors.black,
+  },
+  trailsSubtitle: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: Colors.primaryColor,
+  },
+  trailsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginHorizontal: 16,
+    marginTop: 16,
   },
 });
