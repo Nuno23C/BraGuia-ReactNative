@@ -1,28 +1,27 @@
 // Dependencies
-import {StyleSheet, TouchableOpacity, View, Text, Image} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import { StyleSheet, TouchableOpacity, View, Text, Image } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 // Styles
-import {Colors} from '../styles';
+import { Colors } from '../styles';
 
-export default function TrailCard({trail}) {
-  const navigation = useNavigation();
+export default function TrailCard({ trail, navigation }) {
 
-  const handleSelectTrail = trail_id => {
+  const handleSelectTrail = (trail) => {
     // Verify user type
-    navigation.navigate('Trail', {trail_id});
+    navigation.navigate('Trail', { trail });
   };
 
   return (
     <TouchableOpacity
       style={styles.trailCard}
-      onPress={handleSelectTrail(trail.id)}>
+      onPress={() => handleSelectTrail(trail)}>
       <View>
         <Image source={{uri: trail.trail_img}} style={styles.trailImage} />
       </View>
       <View style={styles.trailInfo}>
         <Text style={styles.trailName}>{trail.trail_name}</Text>
-        <Text style={styles.trailExplore}>Explorar</Text>
+        <Icon name="eye" size={24} color="black" style={{paddingTop: 4}} />
       </View>
     </TouchableOpacity>
   );
@@ -33,21 +32,24 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     padding: 10,
     borderRadius: 10,
-    marginVertical: 5,
+    marginRight: 16,
+    width: 180,
   },
   trailImage: {
-    width: 100,
-    height: 100,
+    width: 160,
+    height: 160,
     borderRadius: 10,
   },
   trailInfo: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'baseline',
   },
   trailName: {
-    fontSize: 20,
+    fontSize: 18,
+    color: Colors.black,
     fontWeight: 'bold',
-  },
-  trailExplore: {
-    fontSize: 16,
+    marginTop: 10,
+    marginLeft: 4,
   },
 });

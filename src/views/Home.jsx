@@ -1,28 +1,19 @@
 // Dependencies
-import {
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  View,
-  Text,
-} from 'react-native';
-import {useEffect} from 'react';
+import { StyleSheet, TextInput, TouchableOpacity, View, Text, FlatList } from 'react-native';
+import { useEffect } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 // Redux
-import {fetchTrails} from '../redux/actions/trailsActions';
-import {useDispatch, useSelector} from 'react-redux';
-import {
-  selectTrailsStatus,
-  selectTrails,
-} from '../redux/selector/trailsSelectors';
+import { fetchTrails } from '../redux/actions/trailsActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectTrailsStatus, selectTrails } from '../redux/selector/trailsSelectors';
 
 // Styles and Components
-import {Colors} from '../styles';
+import { Colors } from '../styles';
 import TrailCard from '../components/TrailCard';
 
-export default function Home() {
+export default function Home({ navigation }) {
   const dispatch = useDispatch();
   const status = useSelector(selectTrailsStatus);
   const trails = useSelector(selectTrails);
@@ -30,6 +21,10 @@ export default function Home() {
   useEffect(() => {
     dispatch(fetchTrails());
   }, [dispatch]);
+
+  const renderItem = ({ item }) => (
+    <TrailCard trail={item} navigation={navigation} />
+  );
 
   return (
     <>
@@ -54,11 +49,14 @@ export default function Home() {
           <Text style={styles.trailsTitle}>Roteiros</Text>
           <Text style={styles.trailsSubtitle}>Ver todos</Text>
         </View>
-        <View style={styles.trailsContainer}>
-          {trails.map((trail, index) => {
-            return <TrailCard key={index} trail={trail} />;
-          })}
-        </View>
+        <FlatList
+          data={trails}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id.toString()}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.trailsContainer}
+        />
       </View>
     </>
   );
@@ -104,12 +102,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: 'bold',
     color: Colors.primaryColor,
+    paddingTop: 12,
   },
   trailsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginHorizontal: 16,
-    marginTop: 16,
+    marginTop: 10,
   },
 });

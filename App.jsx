@@ -1,17 +1,29 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {enableScreens} from 'react-native-screens';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { enableScreens } from 'react-native-screens';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 // Screens
 import Home from './src/views/Home';
 import Perfil from './src/views/Perfil';
 import Contactos from './src/views/Contactos';
+import Trail from './src/views/Trail';
 
 enableScreens();
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function HomeStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="HomeStack" component={Home} options={{headerShown: false}} />
+      <Stack.Screen name="Trail" component={Trail} options={{headerShown: false}} />
+    </Stack.Navigator>
+  );
+}
 
 function App() {
   // const isDarkMode = useColorScheme() === 'dark';
@@ -44,7 +56,7 @@ function App() {
           })}>
           <Tab.Screen
             name="Home"
-            component={Home}
+            component={HomeStack}
             options={{headerShown: false}}
           />
           <Tab.Screen
