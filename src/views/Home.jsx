@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 // Redux
 import { fetchTrails } from '../redux/actions/trailsActions';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectTrailsStatus, selectTrails } from '../redux/selector/trailsSelectors';
+import { selectTrailsStatus, selectTrails } from '../redux/selectors/selectors';
 
 // Styles and Components
 import { Colors } from '../styles';

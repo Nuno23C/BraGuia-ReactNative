@@ -1,7 +1,6 @@
 export const small = {
-  paddingHorizontal: 10,
-  paddingVertical: 5,
-  width: 75,
+  paddingHorizontal: 28,
+  paddingVertical: 12,
 };
 
 export const rounded = {

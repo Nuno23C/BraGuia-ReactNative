@@ -1,10 +1,5 @@
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Colors, Buttons} from '../styles';
-
-// type ButtonProps = {
-//   title: string;
-//   onPress: () => void;
-// };
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Colors, Buttons } from '../styles';
 
 const Button = ({title, onPress}) => {
   return (
@@ -17,11 +12,13 @@ const Button = ({title, onPress}) => {
 const styles = StyleSheet.create({
   buttonContainer: {
     ...Buttons.smallRounded,
+    backgroundColor: Colors.primaryColor,
   },
   buttonText: {
     color: Colors.white,
     textAlign: 'center',
     fontSize: 14,
+    fontWeight: 'bold',
   },
 });
 

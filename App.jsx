@@ -7,6 +7,7 @@ import { enableScreens } from 'react-native-screens';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 // Screens
+import LandingPage from './src/views/LandingPage';
 import Home from './src/views/Home';
 import Perfil from './src/views/Perfil';
 import Contactos from './src/views/Contactos';
@@ -35,41 +36,48 @@ function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <Tab.Navigator
-          initialRouteName="Home"
-          screenOptions={({route}) => ({
-            tabBarIcon: ({focused}) => {
-              let iconName = '';
+        <Stack.Navigator initialRouteName="LandingPage">
+          <Stack.Screen name="LandingPage" component={LandingPage} options={{headerShown: false}} />
+          <Stack.Screen name="Main" options={{headerShown: false}}>
+            {() => (
+              <Tab.Navigator
+                initialRouteName="Home"
+                screenOptions={({ route }) => ({
+                  tabBarIcon: ({ focused }) => {
+                    let iconName = '';
 
-              if (route.name === 'Home') {
-                iconName = focused ? 'home' : 'home-outline';
-              } else if (route.name === 'Perfil') {
-                iconName = focused ? 'person' : 'person-outline';
-              } else if (route.name === 'Contactos') {
-                iconName = focused ? 'people' : 'people-outline';
-              }
+                    if (route.name === 'Home') {
+                      iconName = focused ? 'home' : 'home-outline';
+                    } else if (route.name === 'Perfil') {
+                      iconName = focused ? 'person' : 'person-outline';
+                    } else if (route.name === 'Contactos') {
+                      iconName = focused ? 'people' : 'people-outline';
+                    }
 
-              return <Icon name={iconName} size={30} color="black" />;
-            },
-            tabBarActiveTintColor: 'black',
-            tabBarInactiveTintColor: 'gray',
-          })}>
-          <Tab.Screen
-            name="Home"
-            component={HomeStack}
-            options={{headerShown: false}}
-          />
-          <Tab.Screen
-            name="Perfil"
-            component={Perfil}
-            options={{headerShown: false}}
-          />
-          <Tab.Screen
-            name="Contactos"
-            component={Contactos}
-            options={{headerShown: false}}
-          />
-        </Tab.Navigator>
+                    return <Icon name={iconName} size={30} color="black" />;
+                  },
+                  tabBarActiveTintColor: 'black',
+                  tabBarInactiveTintColor: 'gray',
+                })}>
+                <Tab.Screen
+                  name="Home"
+                  component={HomeStack}
+                  options={{headerShown: false}}
+                />
+                <Tab.Screen
+                  name="Perfil"
+                  component={Perfil}
+                  options={{headerShown: false}}
+                />
+                <Tab.Screen
+                  name="Contactos"
+                  component={Contactos}
+                  options={{headerShown: false}}
+                />
+              </Tab.Navigator>
+            )}
+          </Stack.Screen>
+        </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
   );
