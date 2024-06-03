@@ -13,6 +13,7 @@ import Home from './src/views/Home';
 import Perfil from './src/views/Perfil';
 import Contactos from './src/views/Contactos';
 import Trail from './src/views/Trail';
+import Pin from './src/views/Pin';
 import Settings from './src/views/Settings';
 
 enableScreens();
@@ -24,6 +25,7 @@ function HomeStack() {
     <Stack.Navigator>
       <Stack.Screen name="HomeStack" component={Home} options={{headerShown: false}} />
       <Stack.Screen name="Trail" component={Trail} options={{headerShown: false}} />
+      <Stack.Screen name="Pin" component={Pin} options={{headerShown: false}} />
     </Stack.Navigator>
   );
 }
