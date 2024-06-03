@@ -68,13 +68,13 @@ function App() {
                   options={{headerShown: false}}
                 />
                 <Tab.Screen
-                  name="Perfil"
-                  component={Perfil}
+                  name="Contactos"
+                  component={Contactos}
                   options={{headerShown: false}}
                 />
                 <Tab.Screen
-                  name="Contactos"
-                  component={Contactos}
+                  name="Perfil"
+                  component={Perfil}
                   options={{headerShown: false}}
                 />
               </Tab.Navigator>
