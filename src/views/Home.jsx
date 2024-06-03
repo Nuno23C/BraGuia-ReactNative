@@ -1,6 +1,6 @@
 // Dependencies
 import { StyleSheet, TextInput, TouchableOpacity, View, Text, FlatList } from 'react-native';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -17,10 +17,22 @@ export default function Home({ navigation }) {
   const dispatch = useDispatch();
   const status = useSelector(selectTrailsStatus);
   const trails = useSelector(selectTrails);
+  const [searchInput, setSearchInput] = useState('');
 
   useEffect(() => {
     dispatch(fetchTrails());
   }, [dispatch]);
+
+  const handleSearch = (text) => {
+    if (text === '') {
+      setSearchInput('');
+    } else {
+      const filteredTrails = trails.filter((trail) =>
+        trail.trail_name.includes(text),
+      );
+      setSearchInput(filteredTrails);
+    }
+  };
 
   const renderItem = ({ item }) => (
     <TrailCard trail={item} navigation={navigation} />
@@ -38,7 +50,7 @@ export default function Home({ navigation }) {
             color="black"
             style={styles.searchIcon}
           />
-          <TextInput placeholder="Procurar..." />
+          <TextInput placeholder="Procurar..." onChangeText={handleSearch} />
         </View>
         <TouchableOpacity style={styles.premiumButton}>
           <Icon name="diamond" size={35} color="black" />
