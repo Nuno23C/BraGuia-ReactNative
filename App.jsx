@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { enableScreens } from 'react-native-screens';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { ThemeProvider, useTheme } from './src/styles/themeContext';
 
 // Screens
 import LandingPage from './src/views/LandingPage';
@@ -12,6 +13,7 @@ import Home from './src/views/Home';
 import Perfil from './src/views/Perfil';
 import Contactos from './src/views/Contactos';
 import Trail from './src/views/Trail';
+import Settings from './src/views/Settings';
 
 enableScreens();
 const Tab = createBottomTabNavigator();
@@ -34,6 +36,7 @@ function App() {
   // };
 
   return (
+    <ThemeProvider>
     <SafeAreaProvider>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="LandingPage">
@@ -77,9 +80,11 @@ function App() {
               </Tab.Navigator>
             )}
           </Stack.Screen>
+          <Stack.Screen name="Settings" component={Settings} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
+    </ThemeProvider>
   );
 }
 

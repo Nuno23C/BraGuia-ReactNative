@@ -1,12 +1,11 @@
 // Dependencies
-import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Styles and Components
 import { Colors } from '../styles';
 
-export default function App() {
+export default function Perfil({ navigation }) {
   const handleLogout = () => {
     console.log('Logout pressed');
   };
@@ -15,8 +14,18 @@ export default function App() {
     console.log('Histórico de Trails pressed');
   };
 
+  const handleSettings = () => {
+    console.log('Settings pressed');
+    navigation.navigate('Settings');
+  };
+
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.settingsButton} onPress={handleSettings}>
+          <Icon name="cog" size={30} color="black" />
+        </TouchableOpacity>
+      </View>
       <View style={styles.iconContainer}>
         <Icon name="account" size={100} color="black" />
       </View>
@@ -71,6 +80,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  header: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+  },
+  settingsButton: {
+    padding: 10,
   },
   iconContainer: {
     justifyContent: 'center',
