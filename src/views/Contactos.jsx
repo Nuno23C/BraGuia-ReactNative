@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   logo: {
-    width: '50%', // Alterado para reduzir o tamanho da imagem
-    height: 150, // Ajuste conforme necessário
+    width: '50%',
+    height: 150,
     marginTop: 20,
   },
   buttonsContainer: {
@@ -68,9 +68,9 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'center', // Centralizar o texto dos botões
+    textAlign: 'center',
   },
   buttonIcons: {
-    marginRight: 5, // Ajuste conforme necessário para afastar o ícone do texto
+    marginRight: 5,
   },
 });
