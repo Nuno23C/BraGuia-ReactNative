@@ -52,7 +52,7 @@ export default function Perfil({ navigation }) {
         </TouchableOpacity>
       </View>
       <View style={styles.iconContainer}>
-        <Icon name="account" size={100} color="black" />
+        <Icon name="account-circle-outline" size={100} color={Colors.primaryColor} />
       </View>
       <Text style={styles.userName}>{userInfo.username}</Text>
       <View style={styles.separator} />
@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: -150,
+    marginBottom: -20,
   },
   userName: {
     marginTop: 30,
