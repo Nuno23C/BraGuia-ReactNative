@@ -15,6 +15,7 @@ import Contactos from './src/views/Contactos';
 import Trail from './src/views/Trail';
 import Pin from './src/views/Pin';
 import Settings from './src/views/Settings';
+import Login from './src/views/Login';
 
 enableScreens();
 const Tab = createBottomTabNavigator();
@@ -43,6 +44,7 @@ function App() {
       <NavigationContainer>
         <Stack.Navigator initialRouteName="LandingPage">
           <Stack.Screen name="LandingPage" component={LandingPage} options={{headerShown: false}} />
+          <Stack.Screen name="Login" component={Login} options={{headerShown: false}} />
           <Stack.Screen name="Main" options={{headerShown: false}}>
             {() => (
               <Tab.Navigator

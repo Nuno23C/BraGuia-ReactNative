@@ -1,13 +1,30 @@
 // Dependencies
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import React, { useEffect } from 'react';
 // Styles and Components
 import { Colors } from '../styles';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUserInfo, selectIsLoggedIn } from '../redux/selectors/selectors';
+import { logoutUser } from '../redux/actions/userActions';
+
+import { format } from 'date-fns';
+
 export default function Perfil({ navigation }) {
+
+  const dispatch = useDispatch();
+  const userInfo = useSelector(selectUserInfo);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  //console.log(userInfo.first_name);
+  const date_joined = userInfo.date_joined;
+  const joinedDate  = format(date_joined, 'dd/MM/yyyy');
+  const dateLogin   = userInfo.last_login;
+  const lastLogin   = format(dateLogin, 'dd/MM/yyyy HH:mm:ss');
+
+
   const handleLogout = () => {
-    console.log('Logout pressed');
+    dispatch(logoutUser());
   };
 
   const handleHistorico = () => {
@@ -19,6 +36,14 @@ export default function Perfil({ navigation }) {
     navigation.navigate('Settings');
   };
 
+  useEffect(() => {
+    if (isLoggedIn === false) {
+        navigation.navigate('LandingPage');
+    }
+}, [isLoggedIn]);
+
+
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -29,7 +54,7 @@ export default function Perfil({ navigation }) {
       <View style={styles.iconContainer}>
         <Icon name="account" size={100} color="black" />
       </View>
-      <Text style={styles.userName}>NOME DE UTILIZADOR</Text>
+      <Text style={styles.userName}>{userInfo.username}</Text>
       <View style={styles.separator} />
 
       <View style={styles.infoContainer}>
@@ -48,14 +73,14 @@ export default function Perfil({ navigation }) {
       </View>
 
       <View style={styles.valuesContainer}> 
-        <View style={styles.valueRow}>
-          <Text style={styles.valueText}>tipo_user</Text>
+        <View style={[styles.valueRow, styles.valueMargin]}>
+          <Text style={styles.valueText}>{userInfo.user_type}</Text>
         </View>
         <View style={[styles.valueRow, styles.valueMargin]}>
-          <Text style={styles.valueText}>data</Text>
+          <Text style={styles.valueText}>{joinedDate}</Text>
         </View>
         <View style={[styles.valueRow, styles.valueMargin]}>
-          <Text style={styles.valueText}>data</Text>
+          <Text style={styles.valueText}>{lastLogin}</Text>
         </View>
       </View>
 
@@ -126,13 +151,13 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   valuesContainer: {
-    marginTop: -134,
+    marginTop: -170,
     marginStart: 150,
   },
   valueRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginStart: 30,
+    marginStart: 50,
   },
   valueText: {
     fontSize: 16,
@@ -140,6 +165,7 @@ const styles = StyleSheet.create({
   },
   valueMargin: {
     marginTop: 34,
+    marginLeft: 50,
   },
   historicoButtonContainer: {
     position: 'absolute',

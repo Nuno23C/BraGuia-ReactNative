@@ -13,6 +13,8 @@ import { selectTrailsStatus, selectTrails } from '../redux/selectors/selectors';
 import { Colors } from '../styles';
 import TrailCard from '../components/TrailCard';
 
+/* eslint-disable */
+
 export default function Home({ navigation }) {
   const dispatch = useDispatch();
   const status = useSelector(selectTrailsStatus);

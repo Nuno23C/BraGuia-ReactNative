@@ -3,10 +3,11 @@ import axios from 'axios';
 const BASE_URL = 'https://39b6-193-137-92-72.ngrok-free.app';
 
 const API = axios.create({
+  withCredentials: false,
   baseURL: BASE_URL,
   responseType: 'json',
   headers: {
-    'Content-Type': 'application/json',
+    'content-Type': 'application/json',
   },
 });
 

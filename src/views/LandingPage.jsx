@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchApp } from '../redux/actions/appActions';
-import { selectApp, selectAppStatus } from '../redux/selectors/selectors';
+import { selectApp, selectAppStatus, selectCookies, selectUserStatus } from '../redux/selectors/selectors';
 
 // Styles and Components
 import { Colors, Buttons } from '../styles';
@@ -15,13 +15,16 @@ export default function LandingPage({ navigation }) {
   const dispatch = useDispatch();
   const status = useSelector(selectAppStatus);
   const app = useSelector(selectApp);
+  //const cookies = useSelector(selectCookies);
+  //const userStatus = useSelector(selectUserStatus);
 
   useEffect(() => {
     dispatch(fetchApp());
   }, [dispatch]);
 
   handleStartButton = () => {
-    navigation.navigate('Main');
+    navigation.navigate('Login');
+    //console.log('USER STATUS: ', userStatus);
   }
 
   return (
