@@ -6,4 +6,5 @@ export default colors = {
   gray700: '#374151',
   primaryColor: '#12A064',
   secondaryColor: '#19DC8B',
+  contactsColor: '#f1f9f1',
 };

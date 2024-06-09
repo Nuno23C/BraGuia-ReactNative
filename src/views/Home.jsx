@@ -1,8 +1,9 @@
 // Dependencies
-import { StyleSheet, TextInput, TouchableOpacity, View, Text, FlatList } from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity, View, Text, FlatList, ImageBackground } from 'react-native';
 import { useEffect, useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Dimensions } from 'react-native';
 
 // Redux
 import { fetchTrails } from '../redux/actions/trailsActions';
@@ -12,8 +13,8 @@ import { selectTrailsStatus, selectTrails } from '../redux/selectors/selectors';
 // Styles and Components
 import { Colors } from '../styles';
 import TrailCard from '../components/TrailCard';
+import appBackground from '../../assets/app_background.jpeg';
 
-/* eslint-disable */
 
 export default function Home({ navigation }) {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ export default function Home({ navigation }) {
   );
 
   return (
+    <ImageBackground source={appBackground} style={styles.background}>
     <>
       <LinearGradient
         colors={[Colors.primaryColor, Colors.secondaryColor]}
@@ -73,6 +75,7 @@ export default function Home({ navigation }) {
         />
       </View>
     </>
+    </ImageBackground>
   );
 }
 
@@ -81,6 +84,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderBottomRightRadius: 30,
     borderBottomLeftRadius: 30,
+  },
+  background: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    resizeMode: 'cover',
+    paddingTop: 50, 
   },
   searchBar: {
     flex: 1,

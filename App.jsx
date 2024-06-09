@@ -11,11 +11,17 @@ import { ThemeProvider, useTheme } from './src/styles/themeContext';
 import LandingPage from './src/views/LandingPage';
 import Home from './src/views/Home';
 import Perfil from './src/views/Perfil';
-import Contactos from './src/views/Contactos';
+import AppContacts from './src/views/AppContacts';
 import Trail from './src/views/Trail';
 import Pin from './src/views/Pin';
 import Settings from './src/views/Settings';
 import Login from './src/views/Login';
+import Contacts from './src/views/Contacts';
+import ContactInfo from './src/views/ContactInfo';
+import Socials from './src/views/Socials';
+import SocialsInfo from './src/views/SocialInfo';
+import Partners from './src/views/Partners';
+import PartnerInfo from './src/views/PartnerInfo';
 
 enableScreens();
 const Tab = createBottomTabNavigator();
@@ -30,6 +36,21 @@ function HomeStack() {
     </Stack.Navigator>
   );
 }
+
+function AppContactsStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="AppContactsStack" component={AppContacts} options={{headerShown: false}} />
+      <Stack.Screen name="Contacts" component={Contacts} options={{headerShown: false}} />
+      <Stack.Screen name="ContactInfo" component={ContactInfo} options={{headerShown: false}} />
+      <Stack.Screen name="Socials" component={Socials} options={{headerShown: false}} />
+      <Stack.Screen name="SocialsInfo" component={SocialsInfo} options={{headerShown: false}} />
+      <Stack.Screen name="Partners" component={Partners} options={{headerShown: false}} />
+      <Stack.Screen name="PartnerInfo" component={PartnerInfo} options={{headerShown: false}} />
+    </Stack.Navigator>
+  );
+}
+
 
 function App() {
   // const isDarkMode = useColorScheme() === 'dark';
@@ -73,7 +94,7 @@ function App() {
                 />
                 <Tab.Screen
                   name="Contactos"
-                  component={Contactos}
+                  component={AppContactsStack}
                   options={{headerShown: false}}
                 />
                 <Tab.Screen

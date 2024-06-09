@@ -1,9 +1,10 @@
 // Dependencies
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import React, { useEffect } from 'react';
 // Styles and Components
 import { Colors } from '../styles';
+import appBackground from '../../assets/app_background.jpeg';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserInfo, selectIsLoggedIn } from '../redux/selectors/selectors';
@@ -46,6 +47,7 @@ export default function Perfil({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <ImageBackground source={appBackground} style={styles.background}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.settingsButton} onPress={handleSettings}>
           <Icon name="cog" size={30} color="black" />
@@ -96,6 +98,7 @@ export default function Perfil({ navigation }) {
           <Text style={styles.logoutButtonText}>Logout</Text>
         </TouchableOpacity>
       </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -105,6 +108,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    resizeMode: 'cover',
   },
   header: {
     position: 'absolute',
@@ -131,6 +142,7 @@ const styles = StyleSheet.create({
     borderBottomColor: Colors.primaryColor,
     width: 300,
     marginTop: 25,
+    marginBottom: -45,
   },
   infoContainer: {
     marginTop: 100,
