@@ -34,15 +34,10 @@ export default function Perfil({ navigation }) {
     dispatch(logoutUser());
   };
 
-  const handleHistorico = () => {
-    console.log('Histórico de Trails pressed');
-  };
-
   const handleSettings = () => {
     console.log('Settings pressed');
     navigation.navigate('Settings');
   };
-
 
   return (
     <View style={styles.container}>
@@ -83,13 +78,6 @@ export default function Perfil({ navigation }) {
         <View style={[styles.valueRow, styles.valueMargin]}>
           <Text style={styles.valueText}>{lastLogin}</Text>
         </View>
-      </View>
-
-      <View style={styles.historicoButtonContainer}>
-        <TouchableOpacity style={styles.historicoButton} onPress={handleHistorico}>
-          <Icon name="history" size={20} color="white" style={styles.historicoButtonIcon} />
-          <Text style={styles.historicoButtonText}>Histórico de Trails</Text>
-        </TouchableOpacity>
       </View>
 
       <View style={styles.logoutButtonContainer}>
@@ -178,29 +166,6 @@ const styles = StyleSheet.create({
   valueMargin: {
     marginTop: 34,
     marginLeft: 50,
-  },
-  historicoButtonContainer: {
-    position: 'absolute',
-    bottom: 110,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-  },
-  historicoButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: Colors.primaryColor,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-  },
-  historicoButtonIcon: {
-    marginRight: 10,
-  },
-  historicoButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
   },
   logoutButtonContainer: {
     position: 'absolute',

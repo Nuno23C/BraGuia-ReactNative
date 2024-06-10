@@ -86,7 +86,7 @@ export default function Home({ navigation }) {
         <FlatList
           data={trails}
           renderItem={renderItem}
-          keyExtractor={(index) => index.toString()}
+          keyExtractor={(item) => item.id.toString()}
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.trailsContainer}
