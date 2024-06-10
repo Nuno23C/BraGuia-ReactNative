@@ -14,6 +14,7 @@ export const TRAILS_CHANGE = 'TRAILS_CHANGE';
 // USER
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
-export const STORE_COOKIES = 'STORE_COOKIES';
-export const USER_INFO     = 'USER_INFO';
-export const LOGOUT        = 'LOGOUT';
+export const USER_INFO = 'USER_INFO';
+export const LOGOUT = 'LOGOUT';
+export const UPDATE_TRAIL_HISTORY = 'UPDATE_TRAIL_HISTORY';
+export const GET_TRAIL_HISTORY = 'GET_TRAIL_HISTORY';

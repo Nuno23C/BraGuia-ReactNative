@@ -3,11 +3,13 @@ import { StyleSheet, TextInput, TouchableOpacity, View, Text, FlatList, ImageBac
 import { useEffect, useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useIsFocused } from '@react-navigation/native';
 
 // Redux
-import { fetchTrails } from '../redux/actions/trailsActions';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectTrailsStatus, selectTrails } from '../redux/selectors/selectors';
+import { fetchTrails } from '../redux/actions/trailsActions';
+import { getTrailHistory, deleteTrailHistory } from '../redux/actions/userActions';
+import { selectTrailsStatus, selectTrails, selectTrailHistory } from '../redux/selectors/selectors';
 
 // Styles and Components
 import { Colors } from '../styles';
@@ -18,12 +20,20 @@ import appBackground from '../../assets/app_background.jpeg';
 export default function Home({ navigation }) {
   const dispatch = useDispatch();
   const status = useSelector(selectTrailsStatus);
-  const trails = useSelector(selectTrails);
   const [searchInput, setSearchInput] = useState('');
+  const trails = useSelector(selectTrails);
+  const userTrailHistory = useSelector(selectTrailHistory);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     dispatch(fetchTrails());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (isFocused) {
+      dispatch(getTrailHistory());
+    }
+  }, [isFocused]);
 
   const handleSearch = (text) => {
     if (text === '') {
@@ -40,8 +50,17 @@ export default function Home({ navigation }) {
     <TrailCard trail={item} navigation={navigation} />
   );
 
+  const renderHistoryItem = ({ item }) => {
+    const trail = trails.find((t) => t.trail_name === item);
+    return <TrailCard trail={trail} navigation={navigation} />;
+  }
+
+  const handleCleanHistory = () => {
+    dispatch(deleteTrailHistory());
+  }
+
   return (
-    <ImageBackground source={appBackground} style={styles.background}>
+    // <ImageBackground source={appBackground} style={styles.background}></ImageBackground>
     <>
       <LinearGradient
         colors={[Colors.primaryColor, Colors.secondaryColor]}
@@ -67,14 +86,32 @@ export default function Home({ navigation }) {
         <FlatList
           data={trails}
           renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(index) => index.toString()}
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.trailsContainer}
         />
       </View>
+      {
+        userTrailHistory && userTrailHistory.length > 0 &&
+        <View style={{marginTop: 24}}>
+          <View style={styles.trailsHeader}>
+            <Text style={styles.trailsTitle}>Histórico de Roteiros</Text>
+            <TouchableOpacity onPress={() => handleCleanHistory()}>
+              <Icon name="trash" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            data={userTrailHistory}
+            renderItem={renderHistoryItem}
+            keyExtractor={(item) => item}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.trailsContainer}
+          />
+        </View>
+      }
     </>
-    </ImageBackground>
   );
 }
 
@@ -84,14 +121,14 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 30,
     borderBottomLeftRadius: 30,
   },
-  background: {
-    flex: 1,
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    resizeMode: 'cover',
-    paddingTop: 50,
-  },
+  // background: {
+  //   flex: 1,
+  //   width: '100%',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   resizeMode: 'cover',
+  //   paddingTop: 50,
+  // },
   searchBar: {
     flex: 1,
     flexDirection: 'row',

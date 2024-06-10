@@ -9,9 +9,16 @@ import BackButton from '../components/backButton';
 import FavButton from '../components/favButton';
 import Button from '../components/Button';
 
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import { updateTrailHistory } from '../redux/actions/userActions';
+import { selectTrailHistory } from '../redux/selectors/selectors';
+
 export default function Trail({ route, navigation }) {
+  const dispatch = useDispatch();
   const { trail } = route.params;
   const [pins, setPins] = useState([]);
+  const currentTrailHistory = useSelector(selectTrailHistory);
 
   useEffect(() => {
     const pinsMap = new Map();
@@ -33,7 +40,27 @@ export default function Trail({ route, navigation }) {
   };
 
   const handleStartTrail = () => {
-    // Implement start trail functionality
+    let newTrailList = [];
+
+    if (currentTrailHistory && currentTrailHistory.length > 0) {
+      const trailIndex = currentTrailHistory.indexOf(trail.trail_name);
+
+      if (trailIndex !== -1) { // trail already in history
+        // removing trail from history
+        newTrailList = [
+          ...currentTrailHistory.slice(0, trailIndex),
+          ...currentTrailHistory.slice(trailIndex + 1)
+        ];
+      } else {
+        newTrailList = [...currentTrailHistory];
+      }
+    }
+
+    newTrailList.unshift(trail.trail_name);
+
+    console.log('New Trail List:', newTrailList);
+
+    dispatch(updateTrailHistory(newTrailList));
   }
 
   return (

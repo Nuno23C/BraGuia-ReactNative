@@ -1,30 +1,46 @@
 // Dependencies
 import { StyleSheet, SafeAreaView, View, Text, ImageBackground, Image } from 'react-native';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchApp } from '../redux/actions/appActions';
-import { selectApp, selectAppStatus, selectCookies, selectUserStatus } from '../redux/selectors/selectors';
+import { getUserInfo } from '../redux/actions/userActions';
+import { selectApp, selectAppStatus } from '../redux/selectors/selectors';
 
 // Styles and Components
-import { Colors, Buttons } from '../styles';
+import { Colors } from '../styles';
 import Button from '../components/Button';
+
 
 export default function LandingPage({ navigation }) {
   const dispatch = useDispatch();
   const status = useSelector(selectAppStatus);
   const app = useSelector(selectApp);
-  //const cookies = useSelector(selectCookies);
-  //const userStatus = useSelector(selectUserStatus);
+  const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(() => {
+    const fetchCookies = async () => {
+      const cookies = await AsyncStorage.getItem('cookies');
+      if (cookies) {
+        dispatch(getUserInfo(cookies));
+        setIsLogged(true);
+      }
+    };
+
+    fetchCookies();
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchApp());
   }, [dispatch]);
 
   handleStartButton = () => {
-    navigation.navigate('Login');
-    //console.log('USER STATUS: ', userStatus);
+    if (isLogged) {
+      navigation.navigate('Main');
+    } else {
+      navigation.navigate('Login');
+    }
   }
 
   return (

@@ -8,7 +8,6 @@ import { Colors } from '../styles';
 
 export default function Settings() {
   const { isDarkMode, toggleTheme } = useTheme();
-
   const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const [locationEnabled, setLocationEnabled] = useState(false);
 
@@ -18,7 +17,7 @@ export default function Settings() {
   return (
     <View style={[styles.container, { backgroundColor: isDarkMode ? '#333' : '#fff' }]}>
       <Image source={require('../../assets/braguia_logo_green.png')} style={styles.logo} resizeMode="contain" />
-      
+
       <View style={styles.switchContainer}>
         <Text style={[styles.label, { color: isDarkMode ? '#fff' : '#000' }]}>Ativar/Desativar Notificações</Text>
         <Switch

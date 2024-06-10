@@ -21,7 +21,6 @@ export default function Login({ navigation }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [contenHeight, setContentHeight] = useState(0);
-    //const cookies = useSelector(selectCookies);
 
     useEffect(() => {
       const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
@@ -34,27 +33,23 @@ export default function Login({ navigation }) {
     }, []);
 
     useEffect(() => {
-        if (userStatus === 'success') {
-            Alert.alert('Sucesso','Login efetuado com sucesso!');
-            console.log(userStatus);
-            //console.log(cookies);
-            navigation.navigate('Main');
-        } else if (userStatus === 'failed') {
-            Alert.alert('Login Incorreto','Credenciais incorretas. Tente novamente.');
-        }
+      if (userStatus === 'success') {
+        // Alert.alert('Sucesso','Login efetuado com sucesso!');
+        navigation.navigate('Main');
+      } else if (userStatus === 'failed') {
+        Alert.alert('Login Incorreto','Credenciais incorretas. Tente novamente.');
+      }
     }, [userStatus]);
 
+    const handleStartButton = async () => {
+      if (username === '' || password === '') {
+          Alert.alert('Atenção','Preencha todos os campos.');
+          return;
+      }
 
-    const handleStartButton = () => {
-
-        if (username === '' || password === '') {
-
-            Alert.alert('Atenção','Preencha todos os campos.');
-            return;
-        }
-        dispatch(login(username, password));
-
+      dispatch(login(username, password));
     };
+
 
     return (
         <View style={styles.container}>
