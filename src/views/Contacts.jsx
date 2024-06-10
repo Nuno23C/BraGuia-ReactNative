@@ -1,28 +1,20 @@
 // Dependencies
-import { StyleSheet,Image ,TextInput, TouchableOpacity, View, Text, FlatList, ImageBackground, SafeAreaView } from 'react-native';
-import { useEffect, useState } from 'react';
-import LinearGradient from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/Ionicons';
-
-// Redux
-
-import { useDispatch, useSelector } from 'react-redux';
-import { selectApp, selectAppStatus, selectCookies, selectUserStatus } from '../redux/selectors/selectors';
-
+import { StyleSheet,Image, View, FlatList, ImageBackground, SafeAreaView } from 'react-native';
 
 // Styles and Components
-import { Colors } from '../styles';
-
 import appBackground from '../../assets/app_background.jpeg';
 import braguiaLogo from '../../assets/braguia_logo_green.png';
 import BackButton from '../components/backButton';
 import ContactCard from '../components/ContactCard';
 
+// Redux
+import { useSelector } from 'react-redux';
+import { selectApp } from '../redux/selectors/selectors';
+
 
 export default function Home({ navigation }) {
   const app = useSelector(selectApp);
   const contacts = app.contacts;
-  
 
   const renderItem = ({ item }) => (
     <ContactCard contact={item} navigation={navigation} />
@@ -72,7 +64,7 @@ logo: {
 },
 backButtonContainer: {
     position: 'absolute',
-    top: 25, 
+    top: 25,
     left: 25,
     zIndex: 1,
   },

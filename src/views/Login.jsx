@@ -1,6 +1,7 @@
 // Dependencies
-import { StyleSheet, SafeAreaView, View, Text,Keyboard ,ImageBackground, Image,TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { StyleSheet, View, Keyboard ,ImageBackground, Image, TextInput, Alert } from 'react-native';
 import { useEffect, useState } from 'react';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,38 +9,28 @@ import { login } from '../redux/actions/userActions';
 import { selectUserStatus } from '../redux/selectors/selectors';
 
 // Styles and Components
-import { Colors, Buttons } from '../styles';
+import { Colors } from '../styles';
 import Button from '../components/LoginButton';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
-import { Alert } from 'react-native';
-
 import loginBackground from '../../assets/login_background.jpg';
 import braguiaLogo from '../../assets/braguia_logo.png';
 
 
 export default function Login({ navigation }) {
-
+    const dispatch = useDispatch();
+    const userStatus = useSelector(selectUserStatus);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [contenHeight, setContentHeight] = useState(0);
-
-    const dispatch = useDispatch();
-    const userStatus = useSelector(selectUserStatus);
     //const cookies = useSelector(selectCookies);
 
-
     useEffect(() => {
-        const keyboardDidHideListener = Keyboard.addListener(
-            'keyboardDidHide',
-            () => {
-                setContentHeight(0);
-            }
-        );
+      const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+        setContentHeight(0);
+      });
 
-        return () => {
-            keyboardDidHideListener.remove();
-        };
+      return () => {
+        keyboardDidHideListener.remove();
+      };
     }, []);
 
     useEffect(() => {
@@ -48,22 +39,21 @@ export default function Login({ navigation }) {
             console.log(userStatus);
             //console.log(cookies);
             navigation.navigate('Main');
-        }
-        else if (userStatus === 'failed') {
+        } else if (userStatus === 'failed') {
             Alert.alert('Login Incorreto','Credenciais incorretas. Tente novamente.');
         }
     }, [userStatus]);
 
 
     const handleStartButton = () => {
-        
+
         if (username === '' || password === '') {
-            
+
             Alert.alert('Atenção','Preencha todos os campos.');
             return;
         }
         dispatch(login(username, password));
-        
+
     };
 
     return (

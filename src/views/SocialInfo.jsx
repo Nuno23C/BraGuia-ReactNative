@@ -1,16 +1,11 @@
 // Dependencies
-import { StyleSheet, View, Text,ImageBackground ,Image, ScrollView, TouchableOpacity } from 'react-native';
-import { useEffect, useState } from 'react';
+import { StyleSheet, View, Text,ImageBackground, TouchableOpacity, Linking } from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 // Styles and Components
 import { Colors } from '../styles';
 import BackButton from '../components/backButton';
-import Button from '../components/Button';
-
 import appBackground from '../../assets/app_background.jpeg';
-import Icon from 'react-native-vector-icons/AntDesign';
-
-import { Linking, PermissionsAndroid } from 'react-native';
 
 
 export default function SocialsInfo({ route, navigation }) {
@@ -38,19 +33,18 @@ export default function SocialsInfo({ route, navigation }) {
                     <Text style={styles.callText}>ACEDER</Text>
                 </View>
             </TouchableOpacity>
-       
+
             <Text style={styles.detailLabel}>NOME: </Text>
             <Text style={styles.setSocialName}>{social.social_name}</Text>
-    
+
             <Text style={styles.detailLabel}>LINK: </Text>
             <Text style={styles.setSocialLink}>{social.social_url}</Text>
-    
-           
+
           </ImageBackground>
         </View>
       );
     };
-    
+
     const styles = StyleSheet.create({
       container: {
         flex: 1,
@@ -76,8 +70,6 @@ export default function SocialsInfo({ route, navigation }) {
         alignSelf: 'center',
         backgroundColor: Colors.contactsColor,
         borderRadius: 20,
-
-
       },
       callText: {
         marginTop: 15,
@@ -108,7 +100,7 @@ export default function SocialsInfo({ route, navigation }) {
       },
       backButtonContainer: {
         position: 'absolute',
-        top: 25, 
+        top: 25,
         left: 25,
         zIndex: 1,
       },

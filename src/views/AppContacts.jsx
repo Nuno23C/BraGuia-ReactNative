@@ -4,31 +4,19 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // Styles and Components
 import { Colors } from '../styles';
-
 import appBackground from '../../assets/app_background.jpeg';
 
-import { selectApp, selectAppStatus, selectCookies, selectUserStatus } from '../redux/selectors/selectors';
-import { useDispatch, useSelector } from 'react-redux';
-
 export default function Contactos({navigation}) {
-  
-  const app = useSelector(selectApp); 
-
-  
   const handleContactos = () => {
-   
     navigation.navigate('Contacts')
-    
   };
+
   const handleSociais = () => {
-
     navigation.navigate('Socials')
-
   };
+
   const handlePartners = () => {
-
     navigation.navigate('Partners')
-
   };
 
   return (

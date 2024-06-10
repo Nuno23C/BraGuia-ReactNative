@@ -1,24 +1,17 @@
 // Dependencies
-import { StyleSheet, View, Text,ImageBackground ,Image, ScrollView, TouchableOpacity } from 'react-native';
-import { useEffect, useState } from 'react';
+import { StyleSheet, View, Text,ImageBackground, TouchableOpacity, Linking, PermissionsAndroid } from 'react-native';
+import Icon from 'react-native-vector-icons/Feather';
 
 // Styles and Components
 import { Colors } from '../styles';
 import BackButton from '../components/backButton';
-import Button from '../components/Button';
-
 import appBackground from '../../assets/app_background.jpeg';
-import Icon from 'react-native-vector-icons/Feather';
 
-import { Linking, PermissionsAndroid } from 'react-native';
-
-
-export default function ContactInfo({ route, navigation }) {
+export default function ContactInfo({ route }) {
   const { contact } = route.params;
 
   const handleCallPress = async () => {
     try {
-     
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.CALL_PHONE
       );
@@ -32,7 +25,7 @@ export default function ContactInfo({ route, navigation }) {
       console.error('Erro ao solicitar permissão:', error);
     }
   };
-  
+
     return (
         <View style={styles.container}>
             <ImageBackground source={appBackground} style={styles.background}>
@@ -47,25 +40,23 @@ export default function ContactInfo({ route, navigation }) {
                     <Text style={styles.callText}>LIGAR</Text>
                 </View>
             </TouchableOpacity>
-       
+
             <Text style={styles.detailLabel}>NOME: </Text>
             <Text style={styles.setContactName}>{contact.contact_name}</Text>
-    
+
             <Text style={styles.detailLabel}>TELEMÓVEL: </Text>
             <Text style={styles.setContactPhone}>{contact.contact_phone}</Text>
-    
+
             <Text style={styles.detailLabel}>LINK: </Text>
             <Text style={styles.setContactLink}>{contact.contact_url}</Text>
-    
+
             <Text style={styles.detailLabel}>EMAIL: </Text>
             <Text style={styles.setContactEmail}>{contact.contact_mail}</Text>
-    
-           
           </ImageBackground>
         </View>
       );
     };
-    
+
     const styles = StyleSheet.create({
       container: {
         flex: 1,
@@ -132,7 +123,7 @@ export default function ContactInfo({ route, navigation }) {
       },
       backButtonContainer: {
         position: 'absolute',
-        top: 25, 
+        top: 25,
         left: 25,
         zIndex: 1,
       },

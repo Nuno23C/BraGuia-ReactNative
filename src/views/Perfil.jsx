@@ -1,19 +1,20 @@
 // Dependencies
 import { Text, View, TouchableOpacity, StyleSheet, ImageBackground } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import React, { useEffect } from 'react';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { format } from 'date-fns';
+
 // Styles and Components
 import { Colors } from '../styles';
 import appBackground from '../../assets/app_background.jpeg';
 
+// Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserInfo, selectIsLoggedIn } from '../redux/selectors/selectors';
 import { logoutUser } from '../redux/actions/userActions';
 
-import { format } from 'date-fns';
 
 export default function Perfil({ navigation }) {
-
   const dispatch = useDispatch();
   const userInfo = useSelector(selectUserInfo);
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -23,6 +24,11 @@ export default function Perfil({ navigation }) {
   const dateLogin   = userInfo.last_login;
   const lastLogin   = format(dateLogin, 'dd/MM/yyyy HH:mm:ss');
 
+  useEffect(() => {
+    if (isLoggedIn === false) {
+        navigation.navigate('LandingPage');
+    }
+  }, [isLoggedIn]);
 
   const handleLogout = () => {
     dispatch(logoutUser());
@@ -36,13 +42,6 @@ export default function Perfil({ navigation }) {
     console.log('Settings pressed');
     navigation.navigate('Settings');
   };
-
-  useEffect(() => {
-    if (isLoggedIn === false) {
-        navigation.navigate('LandingPage');
-    }
-}, [isLoggedIn]);
-
 
 
   return (
@@ -74,7 +73,7 @@ export default function Perfil({ navigation }) {
         </View>
       </View>
 
-      <View style={styles.valuesContainer}> 
+      <View style={styles.valuesContainer}>
         <View style={[styles.valueRow, styles.valueMargin]}>
           <Text style={styles.valueText}>{userInfo.user_type}</Text>
         </View>

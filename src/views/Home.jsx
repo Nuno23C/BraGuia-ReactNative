@@ -3,7 +3,6 @@ import { StyleSheet, TextInput, TouchableOpacity, View, Text, FlatList, ImageBac
 import { useEffect, useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Dimensions } from 'react-native';
 
 // Redux
 import { fetchTrails } from '../redux/actions/trailsActions';
@@ -91,7 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     resizeMode: 'cover',
-    paddingTop: 50, 
+    paddingTop: 50,
   },
   searchBar: {
     flex: 1,
