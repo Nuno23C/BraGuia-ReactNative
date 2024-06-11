@@ -1,5 +1,5 @@
 // Dependencies
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -12,13 +12,14 @@ import Button from '../components/Button';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { updateTrailHistory } from '../redux/actions/userActions';
-import { selectTrailHistory } from '../redux/selectors/selectors';
+import { selectTrailHistory, selectUserType } from '../redux/selectors/selectors';
 
 export default function Trail({ route, navigation }) {
   const dispatch = useDispatch();
   const { trail } = route.params;
   const [pins, setPins] = useState([]);
   const currentTrailHistory = useSelector(selectTrailHistory);
+  const userType = useSelector(selectUserType);
 
   useEffect(() => {
     const pinsMap = new Map();
@@ -36,32 +37,40 @@ export default function Trail({ route, navigation }) {
   }, [trail.edges]);
 
   const handleSelectPin = (pin) => {
-    navigation.navigate('Pin', { pin });
+    if (userType == 'Premium') {
+      navigation.navigate('Pin', { pin });
+    } else {
+      Alert.alert('Acesso Negado', 'Esta funcionalidade é exclusiva para utilizadores Premium.');
+    }
   };
 
   const handleStartTrail = () => {
-    let newTrailList = [];
+    if (userType == 'Premium') {
+      let newTrailList = [];
 
-    if (currentTrailHistory && currentTrailHistory.length > 0) {
-      const trailIndex = currentTrailHistory.indexOf(trail.trail_name);
+      if (currentTrailHistory && currentTrailHistory.length > 0) {
+        const trailIndex = currentTrailHistory.indexOf(trail.trail_name);
 
-      if (trailIndex !== -1) { // trail already in history
-        // removing trail from history
-        newTrailList = [
-          ...currentTrailHistory.slice(0, trailIndex),
-          ...currentTrailHistory.slice(trailIndex + 1)
-        ];
-      } else {
-        newTrailList = [...currentTrailHistory];
+        if (trailIndex !== -1) { // trail already in history
+          // removing trail from history
+          newTrailList = [
+            ...currentTrailHistory.slice(0, trailIndex),
+            ...currentTrailHistory.slice(trailIndex + 1)
+          ];
+        } else {
+          newTrailList = [...currentTrailHistory];
+        }
       }
+
+      newTrailList.unshift(trail.trail_name);
+
+      console.log('New Trail List:', newTrailList);
+
+      dispatch(updateTrailHistory(newTrailList));
+    } else {
+      Alert.alert('Acesso Negado', 'Esta funcionalidade é exclusiva para utilizadores Premium.');
     }
-
-    newTrailList.unshift(trail.trail_name);
-
-    console.log('New Trail List:', newTrailList);
-
-    dispatch(updateTrailHistory(newTrailList));
-  }
+  };
 
   return (
     <ScrollView>

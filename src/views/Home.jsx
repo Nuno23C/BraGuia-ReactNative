@@ -46,6 +46,10 @@ export default function Home({ navigation }) {
     }
   };
 
+  const handleOpenUpgrade = () => {
+    navigation.navigate('Premium');
+  };
+
   const renderItem = ({ item }) => (
     <TrailCard trail={item} navigation={navigation} />
   );
@@ -53,11 +57,11 @@ export default function Home({ navigation }) {
   const renderHistoryItem = ({ item }) => {
     const trail = trails.find((t) => t.trail_name === item);
     return <TrailCard trail={trail} navigation={navigation} />;
-  }
+  };
 
   const handleCleanHistory = () => {
     dispatch(deleteTrailHistory());
-  }
+  };
 
   return (
     // <ImageBackground source={appBackground} style={styles.background}></ImageBackground>
@@ -74,7 +78,9 @@ export default function Home({ navigation }) {
           />
           <TextInput placeholder="Procurar..." onChangeText={handleSearch} />
         </View>
-        <TouchableOpacity style={styles.premiumButton}>
+        <TouchableOpacity
+          style={styles.premiumButton}
+          onPress={() => handleOpenUpgrade()}>
           <Icon name="diamond" size={35} color="black" />
         </TouchableOpacity>
       </LinearGradient>

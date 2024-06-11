@@ -1,5 +1,5 @@
 export const small = {
-  paddingHorizontal: 28,
+  paddingHorizontal: 36,
   paddingVertical: 12,
 };
 

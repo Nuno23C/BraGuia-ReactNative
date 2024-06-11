@@ -6,6 +6,7 @@ import { format } from 'date-fns';
 
 // Styles and Components
 import { Colors } from '../styles';
+import Button from '../components/Button';
 import appBackground from '../../assets/app_background.jpeg';
 
 // Redux
@@ -42,49 +43,49 @@ export default function Perfil({ navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground source={appBackground} style={styles.background}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.settingsButton} onPress={handleSettings}>
-          <Icon name="cog" size={30} color="black" />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.iconContainer}>
-        <Icon name="account-circle-outline" size={100} color={Colors.primaryColor} />
-      </View>
-      <Text style={styles.userName}>{userInfo.username}</Text>
-      <View style={styles.separator} />
 
-      <View style={styles.infoContainer}>
-        <View style={styles.infoRow}>
-          <Icon name="account" size={25} color="black" style={styles.icon} />
-          <Text style={styles.infoText}>TIPO UTILIZADOR:</Text>
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.settingsButton} onPress={handleSettings}>
+            <Icon name="cog" size={30} color="black" />
+          </TouchableOpacity>
         </View>
-        <View style={[styles.infoRow, styles.infoMargin]}>
-          <Icon name="calendar" size={25} color="black" style={styles.icon} />
-          <Text style={styles.infoText}>MEMBRO DESDE:</Text>
+        <View style={styles.iconContainer}>
+          <Icon name="account-circle-outline" size={100} color={Colors.primaryColor} />
         </View>
-        <View style={[styles.infoRow, styles.infoMargin]}>
-          <Icon name="login" size={25} color="black" style={styles.icon} />
-          <Text style={styles.infoText}>ÚLTIMO LOGIN:</Text>
-        </View>
-      </View>
+        <Text style={styles.userName}>{userInfo.username}</Text>
+        <View style={styles.separator} />
 
-      <View style={styles.valuesContainer}>
-        <View style={[styles.valueRow, styles.valueMargin]}>
-          <Text style={styles.valueText}>{userInfo.user_type}</Text>
+        <View style={styles.infoContainer}>
+          <View style={styles.infoRow}>
+            <Icon name="account" size={25} color="black" style={styles.icon} />
+            <Text style={styles.infoText}>TIPO UTILIZADOR:</Text>
+          </View>
+          <View style={[styles.infoRow, styles.infoMargin]}>
+            <Icon name="calendar" size={25} color="black" style={styles.icon} />
+            <Text style={styles.infoText}>MEMBRO DESDE:</Text>
+          </View>
+          <View style={[styles.infoRow, styles.infoMargin]}>
+            <Icon name="login" size={25} color="black" style={styles.icon} />
+            <Text style={styles.infoText}>ÚLTIMO LOGIN:</Text>
+          </View>
         </View>
-        <View style={[styles.valueRow, styles.valueMargin]}>
-          <Text style={styles.valueText}>{joinedDate}</Text>
-        </View>
-        <View style={[styles.valueRow, styles.valueMargin]}>
-          <Text style={styles.valueText}>{lastLogin}</Text>
-        </View>
-      </View>
 
-      <View style={styles.logoutButtonContainer}>
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-          <Text style={styles.logoutButtonText}>Logout</Text>
-        </TouchableOpacity>
-      </View>
+        <View style={styles.valuesContainer}>
+          <View style={[styles.valueRow, styles.valueMargin]}>
+            <Text style={styles.valueText}>{userInfo.user_type}</Text>
+          </View>
+          <View style={[styles.valueRow, styles.valueMargin]}>
+            <Text style={styles.valueText}>{joinedDate}</Text>
+          </View>
+          <View style={[styles.valueRow, styles.valueMargin]}>
+            <Text style={styles.valueText}>{lastLogin}</Text>
+          </View>
+        </View>
+
+        <View style={styles.logoutButtonContainer}>
+          <Button title={"Logout"} onPress={handleLogout} />
+        </View>
+
       </ImageBackground>
     </View>
   );
@@ -168,21 +169,6 @@ const styles = StyleSheet.create({
     marginLeft: 50,
   },
   logoutButtonContainer: {
-    position: 'absolute',
-    bottom: 20,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-  },
-  logoutButton: {
-    backgroundColor: Colors.primaryColor,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-  },
-  logoutButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
+    marginTop: 100,
+  }
 });

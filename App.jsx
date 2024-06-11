@@ -22,6 +22,7 @@ import Socials from './src/views/Socials';
 import SocialsInfo from './src/views/SocialInfo';
 import Partners from './src/views/Partners';
 import PartnerInfo from './src/views/PartnerInfo';
+import Premium from './src/views/Premium';
 
 enableScreens();
 const Tab = createBottomTabNavigator();
@@ -33,6 +34,7 @@ function HomeStack() {
       <Stack.Screen name="HomeStack" component={Home} options={{headerShown: false}} />
       <Stack.Screen name="Trail" component={Trail} options={{headerShown: false}} />
       <Stack.Screen name="Pin" component={Pin} options={{headerShown: false}} />
+      <Stack.Screen name="Premium" component={Premium} options={{headerShown: false}} />
     </Stack.Navigator>
   );
 }
