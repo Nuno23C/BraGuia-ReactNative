@@ -2,6 +2,7 @@
 import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Alert, Linking } from 'react-native';
 import { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import GetLocation from 'react-native-get-location';
 
 // Styles and Components
 import { Colors } from '../styles';
@@ -75,18 +76,28 @@ export default function Trail({ route, navigation }) {
       });
   
       const uniqueCoordinates = Array.from(new Set(coordinates.map(JSON.stringify))).map(JSON.parse);
-  
-      const origin = `${uniqueCoordinates[0].lat},${uniqueCoordinates[0].lng}`;
-      const destination = `${uniqueCoordinates[uniqueCoordinates.length - 1].lat},${uniqueCoordinates[uniqueCoordinates.length - 1].lng}`;
-      const waypoints = uniqueCoordinates.slice(1, -1).map(coord => `${coord.lat},${coord.lng}`).join('|');
-  
-      let url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`;
-      if (waypoints) {
-        url += `&waypoints=${waypoints}`;
-      }
-  
-      Linking.openURL(url);
-
+      
+      GetLocation.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 60000,
+      })
+        .then(location => {
+          const { latitude, longitude } = location;
+          const origin = `${latitude},${longitude}`;
+            
+          const destination = `${uniqueCoordinates[uniqueCoordinates.length - 1].lat},${uniqueCoordinates[uniqueCoordinates.length - 1].lng}`;
+          const waypoints = uniqueCoordinates.slice(-1).map(coord => `${coord.lat},${coord.lng}`).join('|');
+            
+          let url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`;
+          if (waypoints) {
+            url += `&waypoints=${waypoints}`;
+          }
+        
+          Linking.openURL(url);
+        })
+        .catch(error => {
+          console.error(error);
+        });
     } else {
       Alert.alert('Acesso Negado', 'Esta funcionalidade é exclusiva para utilizadores Premium.');
     }
