@@ -1,5 +1,5 @@
 // Dependencies
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Alert, Linking } from 'react-native';
 import { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -47,6 +47,7 @@ export default function Trail({ route, navigation }) {
   const handleStartTrail = () => {
     if (userType == 'Premium') {
       let newTrailList = [];
+      const coordinates = [];
 
       if (currentTrailHistory && currentTrailHistory.length > 0) {
         const trailIndex = currentTrailHistory.indexOf(trail.trail_name);
@@ -67,6 +68,25 @@ export default function Trail({ route, navigation }) {
       console.log('New Trail List:', newTrailList);
 
       dispatch(updateTrailHistory(newTrailList));
+
+      trail.edges.forEach(edge => {
+        coordinates.push({ lat: edge.edge_start.pin_lat, lng: edge.edge_start.pin_lng });
+        coordinates.push({ lat: edge.edge_end.pin_lat, lng: edge.edge_end.pin_lng });
+      });
+  
+      const uniqueCoordinates = Array.from(new Set(coordinates.map(JSON.stringify))).map(JSON.parse);
+  
+      const origin = `${uniqueCoordinates[0].lat},${uniqueCoordinates[0].lng}`;
+      const destination = `${uniqueCoordinates[uniqueCoordinates.length - 1].lat},${uniqueCoordinates[uniqueCoordinates.length - 1].lng}`;
+      const waypoints = uniqueCoordinates.slice(1, -1).map(coord => `${coord.lat},${coord.lng}`).join('|');
+  
+      let url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`;
+      if (waypoints) {
+        url += `&waypoints=${waypoints}`;
+      }
+  
+      Linking.openURL(url);
+
     } else {
       Alert.alert('Acesso Negado', 'Esta funcionalidade é exclusiva para utilizadores Premium.');
     }
