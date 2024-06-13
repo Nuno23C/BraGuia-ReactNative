@@ -84,13 +84,16 @@ export default function Trail({ route, navigation }) {
         .then(location => {
           const { latitude, longitude } = location;
           const origin = `${latitude},${longitude}`;
-            
+
+          const firstPoint = `${uniqueCoordinates[0].lat},${uniqueCoordinates[0].lng}`;
+          const waypoints = uniqueCoordinates.slice(1, -1).map(coord => `${coord.lat},${coord.lng}`).join('|');
           const destination = `${uniqueCoordinates[uniqueCoordinates.length - 1].lat},${uniqueCoordinates[uniqueCoordinates.length - 1].lng}`;
-          const waypoints = uniqueCoordinates.slice(-1).map(coord => `${coord.lat},${coord.lng}`).join('|');
-            
+
           let url = `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}`;
           if (waypoints) {
-            url += `&waypoints=${waypoints}`;
+            url += `&waypoints=${firstPoint}|${waypoints}`;
+          } else {
+            url += `&waypoints=${firstPoint}`;
           }
         
           Linking.openURL(url);
