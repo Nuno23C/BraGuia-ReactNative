@@ -7,7 +7,7 @@ import { getAsyncStoreData } from '../utils/async-storage';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchApp } from '../redux/actions/appActions';
 import { getUserInfo } from '../redux/actions/userActions';
-import { selectApp, selectAppStatus } from '../redux/selectors/selectors';
+import { selectApp, selectAppStatus, selectIsLoggedIn } from '../redux/selectors/selectors';
 
 // Styles and Components
 import { Colors } from '../styles';
@@ -18,7 +18,8 @@ export default function LandingPage({ navigation }) {
   const dispatch = useDispatch();
   const status = useSelector(selectAppStatus);
   const app = useSelector(selectApp);
-  const [isLogged, setIsLogged] = useState(false);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  //const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
     const fetchCookies = async () => {
@@ -26,7 +27,7 @@ export default function LandingPage({ navigation }) {
       console.log('COOKIES', cookies);
       if (cookies) {
         dispatch(getUserInfo(cookies));
-        setIsLogged(true);
+        //setIsLogged(true);
       }
     };
 
@@ -38,7 +39,7 @@ export default function LandingPage({ navigation }) {
   }, [dispatch]);
 
   handleStartButton = () => {
-    if (isLogged) {
+    if (isLoggedIn) {
       navigation.navigate('Main');
     } else {
       navigation.navigate('Login');

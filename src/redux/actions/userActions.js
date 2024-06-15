@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
@@ -7,6 +8,8 @@ import {
 
 import API from '../../utils/api';
 import { setAsyncStoreData } from '../../utils/async-storage';
+import { getAsyncStoreData } from '../utils/async-storage';
+
 
 export const loginSuccess = () => ({
   type: LOGIN_SUCCESS,

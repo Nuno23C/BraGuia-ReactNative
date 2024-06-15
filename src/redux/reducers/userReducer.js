@@ -31,7 +31,8 @@ const userReducer = (state = initialState, action) => {
     case USER_INFO:
         return {
             ...state,
-            user_info: action.payload.user_info
+            user_info: action.payload.user_info,
+            isLoggedIn: true
         };
 
     case LOGOUT:
