@@ -7,8 +7,8 @@ import {
     GET_TRAIL_HISTORY,
 } from '../../constants';
 
-import API from '../../api/api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import API from '../../utils/api';
+import { setAsyncStoreData } from '../../utils/async-storage';
 
 export const loginSuccess = () => ({
   type: LOGIN_SUCCESS,
@@ -93,7 +93,7 @@ export const login = (username, password) => {
       const csrftoken = parsedCookies.csrftoken.split(';')[0];
       const sessionid = parsedCookies.sessionid.split(';')[0];
       const cookies_api = `csrftoken=${csrftoken}; sessionid=${sessionid}`;
-      await AsyncStorage.setItem('cookies', cookies_api.toString());
+      await setAsyncStoreData('cookies', cookies_api);
 
       dispatch(getUserInfo(cookies_api));
 
