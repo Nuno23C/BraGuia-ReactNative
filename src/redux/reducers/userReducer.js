@@ -2,8 +2,6 @@ import {LOGIN_SUCCESS,
         LOGIN_FAILURE,
         USER_INFO,
         LOGOUT,
-        UPDATE_TRAIL_HISTORY,
-        GET_TRAIL_HISTORY,
 } from '../../constants';
 
 const initialState = {
@@ -11,7 +9,6 @@ const initialState = {
   isLoggedIn: false,
   error: null,
   user_info: {},
-  trailHistory: [],
 };
 
 const userReducer = (state = initialState, action) => {
@@ -42,18 +39,6 @@ const userReducer = (state = initialState, action) => {
             ...state,
             status : 'request',
             isLoggedIn: false
-        };
-
-    case UPDATE_TRAIL_HISTORY:
-        return {
-            ...state,
-            trailHistory: action.payload.trailHistory
-        };
-
-    case GET_TRAIL_HISTORY:
-        return {
-            ...state,
-            trailHistory: state.trailHistory
         };
 
     default:

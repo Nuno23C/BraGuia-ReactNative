@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useIsFocused } from '@react-navigation/native';
+import { getAsyncStoreData, setAsyncStoreData } from '../utils/async-storage';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTrails } from '../redux/actions/trailsActions';
-import { getTrailHistory, deleteTrailHistory } from '../redux/actions/userActions';
-import { selectTrailsStatus, selectTrails, selectTrailHistory } from '../redux/selectors/selectors';
+import { selectTrailsStatus, selectTrails } from '../redux/selectors/selectors';
 
 // Styles and Components
 import { Colors } from '../styles';
@@ -19,21 +19,27 @@ import appBackground from '../../assets/app_background.jpeg';
 
 export default function Home({ navigation }) {
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const status = useSelector(selectTrailsStatus);
   const [searchInput, setSearchInput] = useState('');
   const trails = useSelector(selectTrails);
-  const userTrailHistory = useSelector(selectTrailHistory);
-  const isFocused = useIsFocused();
+  const [userTrailHistory, setUserTrailHistory] = useState([]);
+  const [isTrailsLoaded, setIsTrailsLoaded] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchTrails());
+    dispatch(fetchTrails()).then(() => setIsTrailsLoaded(true));
   }, [dispatch]);
 
   useEffect(() => {
-    if (isFocused) {
-      dispatch(getTrailHistory());
+    if (isFocused && isTrailsLoaded) {
+      getAsyncStoreData('trailHistory').then((res) => {
+        if (res) {
+          setUserTrailHistory(JSON.parse(res));
+        }
+      });
     }
-  }, [isFocused]);
+  }, [isFocused, isTrailsLoaded]);
+
 
   const handleSearch = (text) => {
     if (text === '') {
@@ -60,7 +66,9 @@ export default function Home({ navigation }) {
   };
 
   const handleCleanHistory = () => {
-    dispatch(deleteTrailHistory());
+    // dispatch(deleteTrailHistory());
+    setAsyncStoreData('trailHistory', JSON.stringify([]));
+    setUserTrailHistory([]);
   };
 
   return (

@@ -1,6 +1,7 @@
 // Dependencies
 import { StyleSheet, SafeAreaView, View, Text, ImageBackground, Image } from 'react-native';
 import { useEffect, useState } from 'react';
+import { getAsyncStoreData } from '../utils/async-storage';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +22,8 @@ export default function LandingPage({ navigation }) {
 
   useEffect(() => {
     const fetchCookies = async () => {
-      const cookies = await AsyncStorage.getItem('cookies');
+      const cookies = await getAsyncStoreData('cookies');
+      console.log('COOKIES', cookies);
       if (cookies) {
         dispatch(getUserInfo(cookies));
         setIsLogged(true);

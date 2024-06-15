@@ -3,7 +3,7 @@ import {
   FETCH_APP_SUCCEEDED,
   FETCH_APP_FAILED,
 } from '../../constants';
-import API from '../../api/api';
+import API from '../../utils/api';
 
 export const fetchAppStarted = () => ({
   type: FETCH_APP_STARTED,

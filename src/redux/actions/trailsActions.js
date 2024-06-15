@@ -4,7 +4,7 @@ import {
   FETCH_TRAILS_FAILED,
   TRAILS_CHANGE,
 } from '../../constants';
-import API from '../../api/api';
+import API from '../../utils/api';
 
 export const fetchTrailsStarted = () => ({
   type: FETCH_TRAILS_STARTED,
