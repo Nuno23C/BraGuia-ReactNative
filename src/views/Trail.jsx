@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Alert, Lin
 import { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import GetLocation from 'react-native-get-location';
+import { getAsyncStoreData, setAsyncStoreData } from '../utils/async-storage';
 
 // Styles and Components
 import { Colors } from '../styles';
@@ -11,15 +12,14 @@ import FavButton from '../components/favButton';
 import Button from '../components/Button';
 
 // Redux
-import { useDispatch, useSelector } from 'react-redux';
-import { updateTrailHistory } from '../redux/actions/userActions';
-import { selectTrailHistory, selectUserType } from '../redux/selectors/selectors';
+import { useSelector } from 'react-redux';
+import { selectUserType } from '../redux/selectors/selectors';
+
 
 export default function Trail({ route, navigation }) {
-  const dispatch = useDispatch();
   const { trail } = route.params;
   const [pins, setPins] = useState([]);
-  const currentTrailHistory = useSelector(selectTrailHistory);
+  const [currentTrailHistory, setCurrentTrailHistory] = useState([]);
   const userType = useSelector(selectUserType);
 
   useEffect(() => {
@@ -37,18 +37,28 @@ export default function Trail({ route, navigation }) {
     setPins(Array.from(pinsMap.values()));
   }, [trail.edges]);
 
+  useEffect(() => {
+    const fetchTrailHistory = async () => {
+      try {
+        const res = await getAsyncStoreData('trailHistory');
+        if (res) {
+          setCurrentTrailHistory(JSON.parse(res));
+        }
+      } catch (e) {
+        console.log('Error fetching trail history:', e);
+      }
+    };
+
+    fetchTrailHistory();
+  }, []);
+
   const handleSelectPin = (pin) => {
-    if (userType == 'Premium') {
-      navigation.navigate('Pin', { pin });
-    } else {
-      Alert.alert('Acesso Negado', 'Esta funcionalidade é exclusiva para utilizadores Premium.');
-    }
+    navigation.navigate('Pin', { pin });
   };
 
   const handleStartTrail = () => {
     if (userType == 'Premium') {
       let newTrailList = [];
-      const coordinates = [];
 
       if (currentTrailHistory && currentTrailHistory.length > 0) {
         const trailIndex = currentTrailHistory.indexOf(trail.trail_name);
@@ -65,18 +75,19 @@ export default function Trail({ route, navigation }) {
       }
 
       newTrailList.unshift(trail.trail_name);
+      setCurrentTrailHistory(newTrailList);
 
-      console.log('New Trail List:', newTrailList);
+      const jsonValue = JSON.stringify(newTrailList);
+      setAsyncStoreData('trailHistory', jsonValue);
 
-      dispatch(updateTrailHistory(newTrailList));
-
+      const coordinates = [];
       trail.edges.forEach(edge => {
         coordinates.push({ lat: edge.edge_start.pin_lat, lng: edge.edge_start.pin_lng });
         coordinates.push({ lat: edge.edge_end.pin_lat, lng: edge.edge_end.pin_lng });
       });
-  
+
       const uniqueCoordinates = Array.from(new Set(coordinates.map(JSON.stringify))).map(JSON.parse);
-      
+
       GetLocation.getCurrentPosition({
         enableHighAccuracy: true,
         timeout: 60000,
@@ -95,7 +106,7 @@ export default function Trail({ route, navigation }) {
           } else {
             url += `&waypoints=${firstPoint}`;
           }
-        
+
           Linking.openURL(url);
         })
         .catch(error => {
@@ -120,10 +131,10 @@ export default function Trail({ route, navigation }) {
           </View>
           {
             trail.trail_difficulty === 'E' ?
-            <Image source={require('../../assets/easy.png')} style={{ width: 80, height: 35 }} /> :
-            trail.trail_difficulty === 'M' ?
-            <Image source={require('../../assets/medium.png')} style={{ width: 95, height: 45 }} /> :
-            <Image source={require('../../assets/hard.png')} style={{ width: 80, height: 30 }} />
+              <Image source={require('../../assets/easy.png')} style={{ width: 80, height: 35 }} /> :
+              trail.trail_difficulty === 'M' ?
+                <Image source={require('../../assets/medium.png')} style={{ width: 95, height: 45 }} /> :
+                <Image source={require('../../assets/hard.png')} style={{ width: 80, height: 30 }} />
           }
         </View>
         <Text style={styles.descTitle}>Descrição:</Text>
@@ -133,15 +144,15 @@ export default function Trail({ route, navigation }) {
           {
             pins.map((pin, index) => (
               <TouchableOpacity key={index} style={styles.pin} onPress={() => handleSelectPin(pin)}>
-                <Text style={{color: "white"}}>{pin.pin_name}</Text>
-                <Icon name="eye" size={18} color="white" style={{marginLeft: 5}}/>
+                <Text style={{ color: "white" }}>{pin.pin_name}</Text>
+                <Icon name="eye" size={18} color="white" style={{ marginLeft: 5 }} />
               </TouchableOpacity>
             ))
           }
         </View>
       </View>
       <View style={styles.startButton}>
-        <Button title="INICIAR" onPress={() => handleStartTrail()}/>
+        <Button title="INICIAR" onPress={() => handleStartTrail()} />
       </View>
     </ScrollView>
   );

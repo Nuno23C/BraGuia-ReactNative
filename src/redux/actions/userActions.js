@@ -3,8 +3,6 @@ import {
     LOGIN_FAILURE,
     USER_INFO,
     LOGOUT,
-    UPDATE_TRAIL_HISTORY,
-    GET_TRAIL_HISTORY,
 } from '../../constants';
 
 import API from '../../utils/api';
@@ -132,17 +130,4 @@ export const logoutUser = () => {
   };
 };
 
-export const updateTrailHistory = (trailHistory) => ({
-  type: UPDATE_TRAIL_HISTORY,
-  payload: { trailHistory },
-});
-
-export const getTrailHistory = () => ({
-  type: GET_TRAIL_HISTORY,
-});
-
-export const deleteTrailHistory = () => ({
-  type: UPDATE_TRAIL_HISTORY,
-  payload: { trailHistory: [] },
-});
 
