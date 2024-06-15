@@ -112,11 +112,13 @@ const styles = StyleSheet.create({
   },
   settingsButton: {
     padding: 10,
+    marginTop: 20,
+    marginRight: 20,
   },
   iconContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: -150,
+    marginTop: 10,
     marginBottom: -20,
   },
   userName: {
@@ -169,6 +171,6 @@ const styles = StyleSheet.create({
     marginLeft: 50,
   },
   logoutButtonContainer: {
-    marginTop: 100,
+    marginTop: 120,
   }
 });
