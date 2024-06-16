@@ -3,7 +3,7 @@ name: Build and Release APK
 on:
   push:
     tags:
-      - 'v*.*.*'  # Isso acionará o workflow apenas quando houver um push com tags que seguem o padrão de versão semântica
+      - 'v*.*.*'
 
 jobs:
   build:
@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Decode keystore
+        run: echo ${{ secrets.KEYSTORE_FILE }} | base64 --decode > android/app/braguia.keystore
+
       - name: Install Android SDK
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -39,7 +42,7 @@ jobs:
       - name: Build APK
         run: |
           cd android
-          ./gradlew assembleRelease
+          ./gradlew assembleRelease -Pandroid.injected.signing.store.file=braguia.keystore -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
 
       - name: Upload APK
         uses: actions/upload-artifact@v2
