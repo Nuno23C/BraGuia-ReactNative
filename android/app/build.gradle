@@ -35,9 +35,9 @@ android {
         }
         release {
             storeFile file('../../braguia')
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
+            storePassword System.getenv("Goncalocp02")
+            keyAlias System.getenv("braguia-alias")
+            keyPassword System.getenv("Goncalocp02")
         }
     }
     buildTypes {
