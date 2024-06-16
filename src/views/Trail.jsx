@@ -1,5 +1,5 @@
 // Dependencies
-import { StyleSheet, View, Text, Image, ScrollView, TouchableOpacity, Alert, Linking } from 'react-native';
+import { StyleSheet, View, Text, Image, ScrollView, ImageBackground, TouchableOpacity, Alert, Linking } from 'react-native';
 import { useEffect, useState } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import GetLocation from 'react-native-get-location';
@@ -10,6 +10,7 @@ import { Colors } from '../styles';
 import BackButton from '../components/backButton';
 import FavButton from '../components/favButton';
 import Button from '../components/Button';
+import appBackground from '../../assets/app_background.jpeg';
 
 // Redux
 import { useSelector } from 'react-redux';
@@ -118,6 +119,7 @@ export default function Trail({ route, navigation }) {
   };
 
   return (
+    <ImageBackground source={appBackground} style={styles.background}>
     <ScrollView>
       <BackButton />
       <FavButton />
@@ -155,6 +157,7 @@ export default function Trail({ route, navigation }) {
         <Button title="INICIAR" onPress={() => handleStartTrail()} />
       </View>
     </ScrollView>
+  </ImageBackground>  
   );
 }
 
@@ -164,6 +167,14 @@ const styles = StyleSheet.create({
     height: 250,
     marginTop: 30,
     alignSelf: 'center',
+  },
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    resizeMode: 'cover',
   },
   infoContainer: {
     padding: 18,

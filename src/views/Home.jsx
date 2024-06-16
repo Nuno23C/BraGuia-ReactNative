@@ -72,7 +72,7 @@ export default function Home({ navigation }) {
   };
 
   return (
-    // <ImageBackground source={appBackground} style={styles.background}></ImageBackground>
+    <ImageBackground source={appBackground} style={styles.background}>
     <>
       <LinearGradient
         colors={[Colors.primaryColor, Colors.secondaryColor]}
@@ -126,6 +126,7 @@ export default function Home({ navigation }) {
         </View>
       }
     </>
+    </ImageBackground>
   );
 }
 
@@ -135,14 +136,14 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 30,
     borderBottomLeftRadius: 30,
   },
-  // background: {
-  //   flex: 1,
-  //   width: '100%',
-  //   justifyContent: 'center',
-  //   alignItems: 'center',
-  //   resizeMode: 'cover',
-  //   paddingTop: 50,
-  // },
+   background: {
+     flex: 1,
+     width: '100%',
+     justifyContent: 'center',
+     alignItems: 'center',
+     resizeMode: 'cover',
+     paddingTop: 50,
+  },
   searchBar: {
     flex: 1,
     flexDirection: 'row',

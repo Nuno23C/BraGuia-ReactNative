@@ -185,6 +185,7 @@ const downloadFile = async (file) => {
 
 
   return (
+    <ImageBackground source={appBackground} style={styles.background}>
     <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollViewContent}>
       <View style={styles.mainContainer}>
         <View style={styles.backButtonContainer}>
@@ -335,6 +336,7 @@ const downloadFile = async (file) => {
       )}
       <View style={styles.separator} />
     </ScrollView>
+    </ImageBackground>
   );
 }
 
@@ -347,6 +349,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
+  },
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   mainContainer: {
     flex: 1,
