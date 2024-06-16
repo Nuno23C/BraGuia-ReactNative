@@ -21,14 +21,19 @@ import NetInfo from '@react-native-community/netinfo';
 const { width } = Dimensions.get('window');
 
 import { selectUserInfo } from '../redux/selectors/selectors';
+import { set } from 'date-fns';
+import { se } from 'date-fns/locale';
 
 
 export default function Pin({ route }) {
   const { pin } = route.params;
   const [isPlaying, setIsPlaying] = useState(false);
   const [hasAudio, setHasAudio] = useState(false);
-  const [videoPlaying, setVideoPlaying] = useState(false);
+  //const [videoPlaying, setVideoPlaying] = useState(false);
   const [isConnected, setIsConnected] = useState(true);
+  const [localImagePath, setLocalImagePath] = useState(null);
+  const [localVideoPath, setLocalVideoPath] = useState(null);
+  const [localAudioPath, setLocalAudioPath] = useState(null);
   const soundRef = React.useRef(null);
   const userInfo = useSelector(selectUserInfo);
   const user_type = userInfo.user_type;
@@ -42,21 +47,59 @@ export default function Pin({ route }) {
     checkConnectivity();
   }, []);
 
-  let image = null;
-  let video = null;
-  let audio = null;
-  for (let i = 0; i < pin.media.length; i++) {
-    if (pin.media[i].media_type === 'I') {
-      image = pin.media[i].media_file;
-    }
+  useEffect(() => {
     
-    else if (pin.media[i].media_type === 'V') {
-      video = pin.media[i].media_file;
-    }
-    else if (pin.media[i].media_type === 'R') {
-      audio = pin.media[i].media_file;
-    }
+    const loadImage = async () => {
+
+      let image = null;
+      let video = null;
+      let audio = null;
+
+      for (let i = 0; i < pin.media.length; i++) {
+        if (pin.media[i].media_type === 'I') {
+          image = pin.media[i].media_file;
+          const filename = image.split('/').pop();
+          const localPath = `${RNFS.DownloadDirectoryPath}/${filename}`;
+          const fileExists = await RNFS.exists(localPath);
+          if (!isConnected && fileExists) {
+            setLocalImagePath(`file://${localPath}`);
+          } else if (isConnected) {
+            setLocalImagePath(image);
+          }
+        }
+
+        else if (pin.media[i].media_type === 'V') {
+          video = pin.media[i].media_file;
+          setLocalVideoPath(video);
+          //const filename = video.split('/').pop();
+          //const localPath = `${RNFS.DownloadDirectoryPath}/${filename}`;
+          //console.log('localPath',localPath)
+          //const fileExists = await RNFS.exists(localPath);
+          //if (isConnected && fileExists) {
+          //  setLocalVideoPath(`file://${localPath}`);
+          //} else if (isConnected) {
+          //  setLocalVideoPath(video);
+          //}
+          
+        }
+        else if (pin.media[i].media_type === 'R') {
+          audio = pin.media[i].media_file;
+          setLocalAudioPath(audio);
+          //const filename = audio.split('/').pop();
+          //const localPath = `${RNFS.DownloadDirectoryPath}/${filename}`;
+          //const fileExists = await RNFS.exists(localPath);
+          //console.log('file exists',fileExists)
+          //if (isConnected && fileExists) {
+          //  setLocalAudioPath(`file://${localPath}`);
+          //} else if (isConnected) {
+          //  setLocalAudioPath(audio);
+          //}
+      }
+    };
   }
+
+    loadImage();
+  }, []);
 
 
   const playAudio = () => {
@@ -70,12 +113,15 @@ export default function Pin({ route }) {
     }
   };
 
-  if (audio !== null && soundRef.current === null) {
-    soundRef.current = new Sound(audio, null, (error) => {
+  if (localAudioPath !== null && soundRef.current === null) {
+    soundRef.current = new Sound(localAudioPath,null, (error) => {
       if (error) {
+        console.log('Failed to load sound', error);
         setHasAudio(false);
       }
-    setHasAudio(true);
+      else {
+        setHasAudio(true);
+      }
     });
   }
 
@@ -90,19 +136,19 @@ export default function Pin({ route }) {
           granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.READ_MEDIA_VIDEO,
           );
-          download = video;
+          download = localVideoPath;
         } 
         else if (file === 'audio') {
           granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.READ_MEDIA_AUDIO,
           );
-          download = audio;
+          download = localAudioPath;
         }
         else if (file === 'image') {
           granted = await PermissionsAndroid.request(
             PermissionsAndroid.PERMISSIONS.READ_MEDIA_IMAGES,
           );
-          download = image;
+          download = localImagePath;
         }
 
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
@@ -115,10 +161,10 @@ export default function Pin({ route }) {
   }
 }
 
-  const downloadFile = async (file) => {
+
+const downloadFile = async (file) => {
     
     const filename = file.split('/').pop();
-    //const downloadDest = `${RNFS.DocumentDirectoryPath}/${filename}`;
     const dest = `${RNFS.DownloadDirectoryPath}/${filename}`;
 
     const download = RNFS.downloadFile({
@@ -145,10 +191,10 @@ export default function Pin({ route }) {
           <BackButton />
         </View>
         <Text style={styles.pin_name}>{pin.pin_name}</Text>
-        {image && (user_type === 'Premium') ? (
+        {localImagePath && (user_type === 'Premium') ? (
         <View style={styles.dowloadImageContainer}>  
           <Image 
-            source={{ uri: image }} 
+            source={{ uri: localImagePath }} 
             style={styles.image} 
           />
           <TouchableOpacity onPress={() => handleDownloadFile('image')}>
@@ -202,7 +248,7 @@ export default function Pin({ route }) {
         <View style={styles.separator} />
         <View>
           <Text style={styles.videoTitle}>{'VÍDEO'}</Text>
-          {user_type === 'Premium' && video ? (
+          {user_type === 'Premium' && localVideoPath ? (
           <Icon2 
             name='checkcircle' 
             size={20} 
@@ -218,18 +264,18 @@ export default function Pin({ route }) {
           />
           )}
         </View>
-        {video && (user_type === 'Premium') ? (
+        {localVideoPath && (user_type === 'Premium') ? (
           <Video
-            source={{ uri: video }}
+            source={{ uri: localVideoPath }}
             style={{ width: width - 32, height: 300 }}
-            paused={!videoPlaying}
+            paused={true}
             controls={true}
             resizeMode="contain"
             />
           ) : (
           <Text style={styles.noVideo}>{'Nenhum vídeo disponível'}</Text>
           )}
-        {video && (user_type === 'Premium') && (
+        {localVideoPath && (user_type === 'Premium') && (
         <View style={styles.downloadButtonContainer}>
           <TouchableOpacity 
             style={styles.downloadButton} 
