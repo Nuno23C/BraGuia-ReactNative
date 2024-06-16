@@ -34,7 +34,7 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file('../braguia')
+            storeFile file('braguia')
             storePassword System.getenv("Goncalocp02")
             keyAlias System.getenv("braguia-alias")
             keyPassword System.getenv("Goncalocp02")
